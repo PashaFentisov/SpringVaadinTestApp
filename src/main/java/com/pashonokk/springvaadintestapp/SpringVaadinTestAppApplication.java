@@ -19,5 +19,4 @@ public class SpringVaadinTestAppApplication implements AppShellConfigurator {
     public RestTemplate RestTemplate() {
         return new RestTemplate();
     }
-
 }

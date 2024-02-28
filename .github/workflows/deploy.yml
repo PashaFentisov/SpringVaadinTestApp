@@ -1,6 +1,7 @@
 name: Deploy to Virtual Machine
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -19,7 +20,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Copy Docker Compose file to VM
-        run: scp -o StrictHostKeyChecking=no docker-compose.yml pasha@172.17.0.1:/spring/docker-compose.yml
+        run: scp -o StrictHostKeyChecking=no docker-compose.yml pasha@172.17.0.1:/spring-app/docker-compose.yml
 
       - name: SSH into VM and start Docker container
-        run: ssh -o StrictHostKeyChecking=no pasha@172.17.0.1 'cd /spring && docker-compose up -d'
+        run: ssh -o StrictHostKeyChecking=no pasha@172.17.0.1 'cd /spring-app && docker-compose up -d'

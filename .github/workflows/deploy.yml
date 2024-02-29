@@ -17,9 +17,14 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           no-verify: true
 
+      - name: Setup known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          cp known_hosts ~/.ssh/known_hosts
+
       - name: Deploy to Server
         run: |
-          ssh root@159.65.57.20 "cd /proj-dir && git pull && docker-compose pull && docker-compose up -d"
+          ssh root@159.65.57.20 "cd /proj-dir && git pull && docker-compose up --build -d"
 
 
 
@@ -51,8 +56,6 @@ jobs:
 #            docker-compose --file docker-compose.prod.yml down;
 #            docker-compose --file docker-compose.prod.yml up -d;
 #            docker system prune --all --force;
-
-#  Как вы понимаете, на моем удаленном сервере предварительно настроен git, docker, docker-compose, Github подружен с сервером с помощью SSH-ключа.
 
 
 #On your server:

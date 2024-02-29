@@ -18,7 +18,7 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh root@159.65.57.20 "cd / && git pull && docker-compose pull && docker-compose up -d"
+          ssh root@159.65.57.20 "cd /proj-dir && git pull && docker-compose pull && docker-compose up -d"
 
 
 

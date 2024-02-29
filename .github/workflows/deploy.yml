@@ -1,26 +1,67 @@
-name: Deploy to Virtual Machine
+name: Deploy to Server
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Copy Docker Compose file to VM
-        run: scp -o StrictHostKeyChecking=no docker-compose.yml pasha@172.17.0.1:/spring-app/docker-compose.yml
+      - name: Deploy to Server
+        run: |
+          ssh root@159.65.57.20 "cd / && git pull && docker-compose pull && docker-compose up -d"
 
-      - name: SSH into VM and start Docker container
-        run: ssh -o StrictHostKeyChecking=no pasha@172.17.0.1 'cd /spring-app && docker-compose up -d'
+
+
+
+
+
+#
+#  deploy:
+#    needs: test
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/main'
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#      - name: Install Ruby and gems
+#        uses: ruby/setup-ruby@ee2113536afb7f793eed4ce60e8d3b26db912da4 # v1.127.0
+#        with:
+#          bundler-cache: true
+#      - name: Run command on remote server
+#        uses: D3rHase/ssh-command-action@v0.2.2
+#        with:
+#          host: ${{secrets.SSH_HOST}}
+#          user: ${{secrets.SSH_USER}}
+#          private_key: ${{secrets.SSH_PRIVATE_KEY}}
+#          command: |
+#            cd ${{ secrets.PROJECT_FOLDER }};
+#            git checkout main;
+#            git pull;
+#            docker-compose --file docker-compose.prod.yml down;
+#            docker-compose --file docker-compose.prod.yml up -d;
+#            docker system prune --all --force;
+
+#  Как вы понимаете, на моем удаленном сервере предварительно настроен git, docker, docker-compose, Github подружен с сервером с помощью SSH-ключа.
+
+
+#On your server:
+#
+#  Create a new user or use your own
+#  Check that user has access to the directory containing the repository (if the repository does not yet exist on the server, clone it into the directory you want)
+#Create an SSH key:
+#  ssh-keygen -t rsa -b 4096
+#Add the public key to the authorized_keys file:
+#  cat <path/to/public/key> >> ~/.ssh/authorized_keys
+#Copy content of the key file:
+#  cat <path/to/private/key>
+#  You need to paste it in the next step.

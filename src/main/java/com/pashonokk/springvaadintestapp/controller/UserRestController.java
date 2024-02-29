@@ -1,12 +1,11 @@
 package com.pashonokk.springvaadintestapp.controller;
 
+import com.pashonokk.springvaadintestapp.dto.UserSavingDto;
 import com.pashonokk.springvaadintestapp.entity.User;
 import com.pashonokk.springvaadintestapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +18,10 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody UserSavingDto userSavingDto) {
+        return ResponseEntity.ok(userService.saveUser(userSavingDto));
     }
 }

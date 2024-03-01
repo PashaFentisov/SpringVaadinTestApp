@@ -17,18 +17,18 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           no-verify: true
 
-      - name: Remove old host key
-        run: |
-          ssh-keygen -f "/home/runner/.ssh/known_hosts" -R "159.65.57.20"
-
-      - name: Setup known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          cp known_hosts ~/.ssh/known_hosts
+#      - name: Remove old host key
+#        run: |
+#          ssh-keygen -f "/home/runner/.ssh/known_hosts" -R "159.65.57.20"
+#
+#      - name: Setup known_hosts create file
+#        run: |
+#          mkdir -p ~/.ssh
+#          cp known_hosts ~/.ssh/known_hosts
 
       - name: Deploy to Server
         run: |
-          ssh root@159.65.57.20 "cd /proj-dir && git pull && docker-compose up --build -d"
+          ssh ${{ secrets.NAME }}@${{ secrets.HOST }} "cd ~/proj-dir && git pull origin master && docker-compose up --build -d"
 
 
 

@@ -17,6 +17,8 @@ services:
 
   # Сервіс для Spring Boot Vaadin додатку
   springbootapp:
+    depends_on:
+      - mysql
     build:
       context: .
       dockerfile: Dockerfile
@@ -24,8 +26,6 @@ services:
     restart: always
     ports:
       - "8080:8080"
-    depends_on:
-      - mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vaadin
       SPRING_DATASOURCE_USERNAME: root

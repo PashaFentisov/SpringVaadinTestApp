@@ -20,6 +20,11 @@ public class UserRestController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody UserSavingDto userSavingDto) {
         return ResponseEntity.ok(userService.saveUser(userSavingDto));

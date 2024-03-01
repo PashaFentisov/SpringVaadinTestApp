@@ -60,16 +60,3 @@ jobs:
 #            docker-compose --file docker-compose.prod.yml down;
 #            docker-compose --file docker-compose.prod.yml up -d;
 #            docker system prune --all --force;
-
-
-#On your server:
-#
-#  Create a new user or use your own
-#  Check that user has access to the directory containing the repository (if the repository does not yet exist on the server, clone it into the directory you want)
-#Create an SSH key:
-#  ssh-keygen -t rsa -b 4096
-#Add the public key to the authorized_keys file:
-#  cat <path/to/public/key> >> ~/.ssh/authorized_keys
-#Copy content of the key file:
-#  cat <path/to/private/key>
-#  You need to paste it in the next step.
